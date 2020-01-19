@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,21 +38,21 @@
       </div>
     </div>
   </nav>
-
+<?php if($maxindex >= 0){?>
 <header class="masthead text-center text-black">
   <div class="container pt-3">
         <div class="jumbotron text-center">
             <h1><pre>Your Guitar recommendation is:</pre></h1>
-            <?php echo "<img src='guitar.jpg'/>"?>
-            <h1><kbd><?php echo 'Squier Affinity Series Stratocaster' ?></kbd></h1>
-            <h1><kbd><?php echo 'Squier' ?></kbd></h1>
-            <h1><kbd><?php echo "Rp2.700.000" ?></kbd></h1>
+            <?php echo '<img src="data:image/jpeg;base64,'.( $gitar_row[$maxindex]['gambar_gitar'] ).'"/>';?>
+            <h1><kbd><?php echo $gitar_row[$maxindex]['nama_gitar']; ?></kbd></h1>
+            <h1><kbd><?php echo $gitar_row[$maxindex]['harga_diskon'] ?></kbd></h1>
             <p></p>
-            <a href="https://galerimusikindonesia.com/squier-affinity-series-stratocaster-id" class="btn btn-secondary" role="button" target="_blank">Visit</a>
+            <!--<a href="https://galerimusikindonesia.com/squier-affinity-series-stratocaster-id" class="btn btn-secondary" role="button" target="_blank">Visit</a>-->
             <a href="start.html" class="btn btn-secondary" role="button">Back</a>
         </div>
     </div>
 </header>
+<?php }?>
 <!--   Footer -->
   <footer class="py-5 bg-black">
     <div class="container">
