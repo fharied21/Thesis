@@ -1,41 +1,46 @@
 <?php
 include("connection.php");
-$sql = "SELECT * FROM gitar_data where harga_diskon >='". $_POST['pricelow']. "'and harga_diskon <= '".$_POST['pricehigh']."'";
+$sql = "SELECT * FROM gitar_data where harga_gitar >=". $_POST['pricelow']. " and harga_gitar <= ".$_POST['pricehigh'];
 $result = $con->query($sql); //koneksi ke database (connection executes query)
 calculateGuitar($result);
 
 function calculateGuitar($result){
-    $min_discount = 0;
-    $max_discount = 100;
     $minimum = 0;
     $maximum = 100;
     $price_high = 100;
     $price_low = 1;
+    $light_gitar = 4;//in kg 
+    $heavy_gitar = 20;//in kg 
+    $low_frets = 10; 
+    $many_frets = 30; 
     $data = [];
     $gitar_row = [];
-
+        
     while($row=mysqli_fetch_assoc($result)){
         $price = round(($row['harga_gitar']/1000000),2);
-        $discount = round((($row['harga_gitar'] - $row['harga_diskon'])/$row['harga_gitar']),2);
-        //$type = $row['guitar_type'];
-
 
         // FUZZIFICATION
         $price_cheap = round(($price_high - $price)/($price_high - $price_low), 2);
         $price_expensive = round(($price - $price_low)/($price_high - $price_low), 2);
-        $discount_low = round(($max_discount - $discount)/($max_discount - $min_discount), 2);
-        $discount_high = round(($discount - $min_discount)/($max_discount - $min_discount), 2);
-
-
+        $not_heavy = round(($heavy_gitar - $row['berat_gitar'])/($heavy_gitar - $light_gitar), 2);
+        $heavy = round(($row['berat_gitar'] - $light_gitar)/($heavy_gitar - $light_gitar), 2);
+        $minimum_frets = round(($many_frets - $row['frets'])/($many_frets - $low_frets), 2);
+        $maximum_frets = round(($row['frets'] - $low_frets)/($many_frets - $low_frets), 2);
+        
+        
 
         // INFERENCE
-        // Fire Strength
-        // Price cheap
-        $R1 = min($price_cheap, $discount_low);
-        $R2 = min($price_cheap, $discount_high);
+        // Price cheap,not too heavy, many frets
+        $R1 = min($price_cheap, $not_heavy,$minimum_frets);
+        $R2 = min($price_cheap, $not_heavy,$maximum_frets);
+        $R3 = min($price_cheap, $heavy,$minimum_frets);
+        $R4 = min($price_cheap, $heavy,$maximum_frets);
         
-        $R3 = min($price_expensive, $discount_low);
-        $R4 = min($price_expensive, $discount_high);
+        
+        $R5 = min($price_expensive, $not_heavy,$minimum_frets);
+        $R6 = min($price_expensive, $not_heavy,$maximum_frets);
+        $R7 = min($price_expensive, $heavy,$minimum_frets);
+        $R8 = min($price_expensive, $heavy,$maximum_frets);
         //---------------------------------------------------------------------------------//
 
 
@@ -76,7 +81,6 @@ function calculateGuitar($result){
         }
         $indexcont+=1;
     }
-    echo $indexcont .' '. $maxindex;
 include("output.php");
 }
 ?>

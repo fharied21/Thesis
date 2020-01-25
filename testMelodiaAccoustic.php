@@ -1,5 +1,7 @@
 <?php
 ini_set('max_execution_time', 300);
+include("connection.php");
+
 $curl = curl_init();
 $url = 'https://www.melodiamusik.com/product-category/jenis/guitars/acoustic-electric-guitar';
 
@@ -7,7 +9,7 @@ curl_setopt($curl,CURLOPT_URL,$url);
 curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
 
 $result = curl_exec($curl);
-
+$type = 'Accoustic Electric Guitar';
 
 
 preg_match_all('!(\d*)<\/a><\/li>\D*<li><a class="next page-numbers"!',$result,$match);
@@ -43,22 +45,39 @@ for($i = 1; $i <= $loop ; $i++){
         preg_match_all('!Frets\D*(\d*)!',$result2,$match);
         if(count($match[1])>0){
             $isValid = 0;
-            foreach($match[1] as $frets){
-                if($frets>15){
-                    $list['frets']=$frets;
+            foreach($match[1] as $Nofrets){
+                if($Nofrets>15){
+                    $frets=$Nofrets;
                     $isValid = 1;
                 }
             }
             if($isValid == 0)        
-                $list['frets'] = 24;
+                $frets = 19;
         }
         else
-        $list['frets'] = 24;
+        $frets = 19;
         preg_match_all('!<th class="woocommerce-product-attributes-item__label">Weight<\/th>\D*<td class="woocommerce-product-attributes-item__value">(\d*)!',$result2,$match);
         $berat = $match[1][0];
         preg_match_all('!Brand:\D*>(.*)<\/a><!',$result2,$match);
         $brand = $match[1][0];
-        print_r($list['name'][0].' '.$brand.' '.$list['price'][$counter]. ' '.$list['frets'].' '.$berat.' kg <br>');
+        preg_match_all('!src="(.*)" class="wp-post-image"!',$result2,$match);
+        $imageSource = $match[1][0];
+        
+        $stringHarga = ""; //ini untuk after
+        $hargaExplode = explode('.',$list['price'][$counter]);
+        foreach($hargaExplode as $harga){
+            $stringHarga = $stringHarga.$harga; 
+        }
+        
+        $gambar = base64_encode(file_get_contents($imageSource));
+        $sql = "INSERT INTO gitar_data (harga_gitar, nama_gitar, brand_gitar,berat_gitar,frets, tipe_gitar, gambar_gitar,link_detail) VALUES 
+        ('".$stringHarga."','".$list['name'][0]."', '".$brand."','".$berat."','".$frets."','".$type."','".$gambar."','".$url2."')";
+        if(mysqli_query($con,$sql)) {
+            //echo "success";
+        }
+        else{
+            echo mysqli_error($con);
+        }
         $counter++;
         curl_close($curl2);
     }

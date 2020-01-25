@@ -45,9 +45,9 @@
             <h1><pre>Your Guitar recommendation is:</pre></h1>
             <?php echo '<img src="data:image/jpeg;base64,'.( $gitar_row[$maxindex]['gambar_gitar'] ).'"/>';?>
             <h1><kbd><?php echo $gitar_row[$maxindex]['nama_gitar']; ?></kbd></h1>
-            <h1><kbd><?php echo $gitar_row[$maxindex]['harga_diskon'] ?></kbd></h1>
-            <p></p>
-            <!--<a href="https://galerimusikindonesia.com/squier-affinity-series-stratocaster-id" class="btn btn-secondary" role="button" target="_blank">Visit</a>-->
+            <h1><kbd><?php echo $gitar_row[$maxindex]['harga_gitar'] ?></kbd></h1>
+            
+            <a href="<?php echo $gitar_row[$maxindex]['link_detail']?>" class="btn btn-secondary" role="button" target="_blank">Visit</a>
             <a href="start.html" class="btn btn-secondary" role="button">Back</a>
         </div>
     </div>
