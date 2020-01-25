@@ -61,7 +61,7 @@ for($i = 1; $i <= $loop ; $i++){
         $brand = $match[1][0];
         preg_match_all('!src="(.*)" class="wp-post-image"!',$result2,$match);
         $imageSource = $match[1][0];
-        preg_match_all('!<ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rp<\/span>&nbsp;(.*)<\/span><\/ins>!',$result,$match);
+        preg_match_all('!<ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rp<\/span>&nbsp;(.*)<\/span><\/ins>!',$result2,$match);
         $list['price']=$match[1][0];
 
         
