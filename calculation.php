@@ -1,6 +1,13 @@
 <?php
 include("connection.php");
-$sql = "SELECT * FROM gitar_data where harga_gitar >=". $_POST['pricelow']. " and harga_gitar <= ".$_POST['pricehigh'];
+$sql = "SELECT * FROM gitar_data where true";
+if(!($_POST['guitarType'] == ""))
+    $sql = "SELECT * FROM gitar_data where tipe_gitar = '".$_POST['guitarType']."'";
+if(!($_POST['pricelow'] == ""))
+    $sql =  $sql." and harga_gitar >= ". $_POST['pricelow'];
+if(!($_POST['pricehigh'] == ""))
+    $sql =  $sql." and harga_gitar <= ".$_POST['pricehigh'];
+echo $sql;
 $result = $con->query($sql); //koneksi ke database (connection executes query)
 calculateGuitar($result);
 
@@ -15,7 +22,7 @@ function calculateGuitar($result){
     $many_frets = 30; 
     $data = [];
     $gitar_row = [];
-        
+    
     while($row=mysqli_fetch_assoc($result)){
         $price = round(($row['harga_gitar']/1000000),2);
 
@@ -45,8 +52,8 @@ function calculateGuitar($result){
 
 
         //FIND MAX
-        $Max1 = max($R1,$R2);
-        $Max2 = max($R3,$R4);
+        $Max1 = max($R1,$R2,$R3,$R4);
+        $Max2 = max($R5,$R6,$R7,$R8);
         $Max = max($Max1, $Max2);
 
         //FIND a1 AND DEFUZZIFICATION
@@ -80,7 +87,7 @@ function calculateGuitar($result){
             $maxindex = $indexcont;
         }
         $indexcont+=1;
-    }
-include("output.php");
+    }   
+    include("output.php");
 }
 ?>

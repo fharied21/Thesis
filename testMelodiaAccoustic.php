@@ -31,7 +31,6 @@ for($i = 1; $i <= $loop ; $i++){
 
     preg_match_all('!<a href="(.*?)" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">!',$result,$match);
     $list['link']=$match[1];
-    $counter = 0;
     curl_close($curl);
     foreach($list['link'] as $url2){
         $curl2 = curl_init();
@@ -62,9 +61,12 @@ for($i = 1; $i <= $loop ; $i++){
         $brand = $match[1][0];
         preg_match_all('!src="(.*)" class="wp-post-image"!',$result2,$match);
         $imageSource = $match[1][0];
+        preg_match_all('!<ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rp<\/span>&nbsp;(.*)<\/span><\/ins>!',$result,$match);
+        $list['price']=$match[1][0];
+
         
         $stringHarga = ""; //ini untuk after
-        $hargaExplode = explode('.',$list['price'][$counter]);
+        $hargaExplode = explode('.',$list['price']);
         foreach($hargaExplode as $harga){
             $stringHarga = $stringHarga.$harga; 
         }
@@ -78,7 +80,6 @@ for($i = 1; $i <= $loop ; $i++){
         else{
             echo mysqli_error($con);
         }
-        $counter++;
         curl_close($curl2);
     }
 }
