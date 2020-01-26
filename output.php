@@ -38,7 +38,7 @@
       </div>
     </div>
   </nav>
-<?php if($maxindex >= 0){?>
+<?php if($maxindex >= 0 && $indexcont>0){?>
 <header class="masthead text-center text-black">
   <div class="container pt-3">
         <div class="jumbotron text-center">
@@ -52,7 +52,16 @@
         </div>
     </div>
 </header>
-<?php }?>
+<?php }else{?>
+  <header class="masthead text-center text-black">
+  <div class="container pt-3">
+        <div class="jumbotron text-center">
+            <h1><pre>No gitar found with your filter</pre></h1>
+            <a href="start.html" class="btn btn-secondary" role="button">Back</a>
+        </div>
+    </div>
+</header>
+  <?php }?>
 <!--   Footer -->
   <footer class="py-5 bg-black">
     <div class="container">
