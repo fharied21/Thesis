@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 600);
+ini_set('max_execution_time', 1200);
     include("connection.php");
     $sql = "DELETE FROM gitar_data";
     if(mysqli_query($con,$sql)) {

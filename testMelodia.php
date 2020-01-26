@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 600);
 include("connection.php");
 $curl = curl_init();
 $url = 'https://www.melodiamusik.com/product-category/jenis/guitars/electric-guitar';

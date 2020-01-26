@@ -7,7 +7,6 @@ if(!($_POST['pricelow'] == ""))
     $sql =  $sql." and harga_gitar >= ". $_POST['pricelow'];
 if(!($_POST['pricehigh'] == ""))
     $sql =  $sql." and harga_gitar <= ".$_POST['pricehigh'];
-echo $sql;
 $result = $con->query($sql); //koneksi ke database (connection executes query)
 calculateGuitar($result);
 
