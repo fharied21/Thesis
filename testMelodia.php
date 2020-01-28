@@ -71,12 +71,12 @@ for($i = 1; $i <= $loop ; $i++){
         foreach($hargaExplode as $harga){
             $stringHarga = $stringHarga.$harga; 
         }
-
+        $rating =3;//default
         //print_r($list['name'][0].' '.$brand.' '.$list['price'][$counter]. ' '.$list['frets'].' '.$berat.' kg <br>');
         
         $gambar = base64_encode(file_get_contents($imageSource));
-        $sql = "INSERT INTO gitar_data (harga_gitar, nama_gitar, brand_gitar,berat_gitar,frets, tipe_gitar, gambar_gitar,link_detail) VALUES 
-        ('".$stringHarga."','".$list['name'][0]."', '".$brand."','".$berat."','".$frets."','".$type."','".$gambar."','".$url2."')";
+        $sql = "INSERT INTO gitar_data (harga_gitar, nama_gitar, brand_gitar,berat_gitar,frets, tipe_gitar,rating, gambar_gitar,link_detail) VALUES 
+        ('".$stringHarga."','".$list['name'][0]."', '".$brand."','".$berat."','".$frets."','".$type."','".$rating."','".$gambar."','".$url2."')";
         if(mysqli_query($con,$sql)) {
             //echo "success";
         }

@@ -3,10 +3,16 @@ include("connection.php");
 $sql = "SELECT * FROM gitar_data where true";
 if(!($_POST['guitarType'] == ""))
     $sql = "SELECT * FROM gitar_data where tipe_gitar = '".$_POST['guitarType']."'";
-if(!($_POST['pricelow'] == ""))
     $sql =  $sql." and harga_gitar >= ". $_POST['pricelow'];
-if(!($_POST['pricehigh'] == ""))
     $sql =  $sql." and harga_gitar <= ".$_POST['pricehigh'];
+    $sql =  $sql." and rating >= ". $_POST['lowrate'];
+    $sql =  $sql." and rating <= ".$_POST['highrate'];
+    $sql =  $sql." and frets >= ". $_POST['fretlow'];
+    $sql =  $sql." and frets <= ".$_POST['frethigh'];
+    $sql =  $sql." and berat_gitar >= ". $_POST['lightest'];
+    $sql =  $sql." and berat_gitar <= ".$_POST['heaviest'];
+
+    
 $result = $con->query($sql); //koneksi ke database (connection executes query)
 calculateGuitar($result);
 

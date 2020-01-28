@@ -40,30 +40,82 @@
 
   <header class="masthead text-center text-white">
     <div class="container pt-3">
-        <form method="post" action="calculation.php">
+        <form method="post" action="calculation.php" id="calculation">
             <div class="jumbotron">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <input type="text" class="form-control" placeholder="Lowest Price" name="pricelow">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <input type="text" class="form-control" placeholder="Highest Price" name="pricehigh">
-                    </div>
-                    <div class="form-group col-md-6" style= "width:800px; margin:0 auto;">
-                        <label style="color: black">Guitar Type:</label>
-                        <select class="form-control" name="guitarType">
-                            <option value="">All</option>
-                            <option value="Accoustic Electric Guitar">Accoustic</option>
-                            <option value="Electric Guitar">Electric</option>
-                            </select>
+                  
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Lowest Price" name="pricelow" id="pricelow">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Highest Price" name="pricehigh" id="pricehigh">
+                  </div>
+                  
+                </div>
+                <div class="form-row">
+                  
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Lightest(kg)" name="lightest" id="lightest">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Heaviest(kg)" name="heaviest" id="heaviest">
+                  </div>
+                  
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Lowest number of Frets" name="fretlow" id="fretlow">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Highest number of Frets" name="frethigh" id="frethigh">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label style="color: black">Lowest Rating:</label>
+                      <select class="form-control" name="lowrate">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>  
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label style="color: black">Highest Rating:</label>
+                    <select class="form-control" name="highrate">
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5" selected>5</option>
+                    </select>  
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Lowest Price" name="pricelow" id="pricelow">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="Highest Price" name="pricehigh" id="pricehigh">
+                  </div>
+                  <div class="form-group col-md-6" style= "width:800px; margin:0 auto;">
+                      <label style="color: black">Guitar Type:</label>
+                      <select class="form-control" name="guitarType">
+                          <option value="">All</option>
+                          <option value="Accoustic Electric Guitar">Accoustic</option>
+                          <option value="Electric Guitar">Electric</option>
+                          </select>
                     </div>
                 </div>
               </div>
-                <div class="text-center">
-                    <input type="submit" class="btn btn-primary btn-xl rounded-pill mt-6" value="Process" role="button">
-                </div>
             </div>
         </form>
+		<div class="text-center">
+			<input id="buttonSubmit" type="submit" class="btn btn-primary btn-xl rounded-pill mt-6" value="Process" role="button">
+		</div>
     </div>
    </header>
 
@@ -76,9 +128,44 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script>
+	$("#buttonSubmit").on("click", function(){
+		event.preventDefault();
+		var pricelow = $("#pricelow").val();
+		var pricehigh = $("#pricehigh").val();
+		var lightest = $("#lightest").val();
+		var heaviest = $("#heaviest").val();
+		var fretlow = $("#fretlow").val();
+		var frethigh = $("#frethigh").val();
+		
+    var re = new RegExp("^[0-9]*$");
+    var validPrice = re.test(pricelow) && re.test(pricehigh) && pricelow != "" && pricelow != ""; 
+		var validWeight = re.test(lightest) && re.test(heaviest) && lightest != "" && heaviest != ""; 
+		var validFret = re.test(fretlow) && re.test(frethigh) && fretlow != "" && frethigh != ""; 
+		
+    if(validPrice && validFret && validWeight){
+			document.getElementById('calculation').submit();
+		}
+		else{
+			if(!re.test(pricelow) || pricelow == "")
+				$("#pricelow").addClass("is-invalid");
+			if(!re.test(pricehigh)|| pricehigh == "")
+				$("#pricehigh").addClass("is-invalid");
+        
+			if(!re.test(lightest) || lightest == "")
+				$("#lightest").addClass("is-invalid");
+			if(!re.test(heaviest)|| heaviest == "")
+				$("#heaviest").addClass("is-invalid");
+        
+			if(!re.test(fretlow) || fretlow == "")
+				$("#fretlow").addClass("is-invalid");
+			if(!re.test(frethigh)|| frethigh == "")
+				$("#frethigh").addClass("is-invalid");
+		}
+	});
+	</script>
 </body>
 
 </html>
