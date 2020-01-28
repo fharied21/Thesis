@@ -14,10 +14,12 @@ $type = 'Electric Guitar';
 
 preg_match_all('!(\d*)<\/a><\/li>\D*<li><a class="next page-numbers"!',$result,$match);
 $loop=$match[1][0];
-
+$gitar = 0;
 curl_close($curl);
 for($i = 1; $i <= $loop ; $i++){
-    
+    if($gitar >=80){
+        break;
+    }
     $curl = curl_init();
     $url = 'https://www.melodiamusik.com/product-category/jenis/guitars/electric-guitar?product-page='.$i;
 
@@ -30,6 +32,9 @@ for($i = 1; $i <= $loop ; $i++){
     $list['link']=$match[1];
     curl_close($curl);
     foreach($list['link'] as $url2){
+        if($gitar >=80){
+            break;
+        }
         $curl2 = curl_init();
 
         curl_setopt($curl2,CURLOPT_URL,$url2);
@@ -84,7 +89,7 @@ for($i = 1; $i <= $loop ; $i++){
             echo mysqli_error($con);
         }
         curl_close($curl2);
-
+        $gitar++;
     }
 }
 ?>
